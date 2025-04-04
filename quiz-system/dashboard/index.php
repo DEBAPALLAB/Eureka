@@ -73,4 +73,8 @@ $role = htmlspecialchars($_SESSION['role']);
   <div class="content">
     <h1>Welcome, <?= $name ?>!</h1>
     <p>You are logged in as <strong><?= ucfirst($role) ?></strong>.</p>
-    <
+    <p>This is your dashboard. Use the navigation or side panel to manage quizzes and take tests.</p>
+  </div>
+
+</body>
+</html>
