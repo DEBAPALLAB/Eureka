@@ -1,25 +1,21 @@
 <?php
 require_once '../config/db.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name     = trim($_POST['name']);
-    $email    = trim($_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name     = $_POST['name'];
+    $email    = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $role     = 'user'; // or 'admin' if needed
 
-    // Check if email already exists
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt->execute([$email]);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $email, $password, $role);
 
-    if ($stmt->rowCount() > 0) {
-        die("Email already registered.");
+    if ($stmt->execute()) {
+        header("Location: ../views/login.html"); // ✅ correct redirect path
+        exit;
     }
-
-    // Insert new user
-    $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-    $stmt->execute([$name, $email, $password]);
-
-    // Redirect to login
-    header("Location: ../views/login.html");
-    exit;
+     else {
+        echo "❌ Registration failed: " . $stmt->error;
+    }
 }
 ?>

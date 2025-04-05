@@ -1,33 +1,32 @@
 <?php
 session_start();
 require_once '../config/db.php';
-require_once 'validate.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize input
-    $email    = sanitizeInput($_POST['email']);
-    $password = $_POST['password']; // don't sanitize password text itself
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email    = $_POST['email'];
+    $password = $_POST['password'];
 
-    // Validate email format
-    if (!isValidEmail($email)) {
-        die("Invalid email format.");
-    }
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Check if user exists
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result && $result->num_rows === 1) {
+        $user = $result->fetch_assoc();
 
-    if ($user && password_verify($password, $user['password'])) {
-        // Success
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role']    = $user['role'];
-        $_SESSION['name']    = $user['name'];
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['name']    = $user['name'];
+            $_SESSION['email']   = $user['email'];
+            $_SESSION['role']    = $user['role'];
 
-        header("Location: ../dashboard/index.php");
-        exit;
+            header("Location: ../dashboard/index.php");
+            exit;
+        } else {
+            echo "❌ Incorrect password.";
+        }
     } else {
-        die("Incorrect email or password.");
+        echo "❌ No user found with this email.";
     }
 }
 ?>
