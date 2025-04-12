@@ -17,13 +17,15 @@ if (!$quiz_id) {
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $new_name = $_POST['name'] ?? '';
+    $new_name = $_POST['title'] ?? '';
     $new_topic = $_POST['topic'] ?? '';
 
-    $stmt = $conn->prepare("UPDATE quizzes SET name = ?, topic = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE quizzes SET title = ?, topic = ? WHERE id = ?");
     $stmt->bind_param("ssi", $new_name, $new_topic, $quiz_id);
     if ($stmt->execute()) {
         $message = "Quiz updated successfully!";
+    } else {
+        $message = "Error updating quiz.";
     }
 }
 
@@ -49,7 +51,7 @@ $questions = $qStmt->get_result();
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Edit Quiz - <?= htmlspecialchars($quiz['name']) ?></title>
+  <title>Edit Quiz - <?= htmlspecialchars($quiz['title']) ?></title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
   <style>
     body {
@@ -142,6 +144,7 @@ $questions = $qStmt->get_result();
       display: flex;
       justify-content: space-between;
     }
+
     .add-btn {
       display: inline-block;
       margin: 20px 0;
@@ -154,6 +157,7 @@ $questions = $qStmt->get_result();
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: background 0.3s ease;
     }
+
     .add-btn:hover {
       background: #16a085;
     }
@@ -170,10 +174,23 @@ $questions = $qStmt->get_result();
     .question-actions a.delete {
       background: #e74c3c;
     }
+
+    .main-content {
+  margin-left: 220px;
+  transition: margin-left 0.3s ease;
+  padding: 40px;
+}
+
+.sidebar.minimized ~ .main-content {
+  margin-left: 70px;
+}
+
   </style>
 </head>
 <body>
+<?php include '../navbar.php'; ?>
 
+<div class="main-content" id="mainContent">
   <h2>Edit Quiz</h2>
 
   <?php if ($message): ?>
@@ -181,9 +198,8 @@ $questions = $qStmt->get_result();
   <?php endif; ?>
 
   <form method="POST">
-    <label for="name">Quiz Name</label>
-    <input type="text" name="topic" id="topic" value="<?= htmlspecialchars($quiz['topic'] ?? '') ?>" required>
-
+    <label for="title">Quiz Name</label>
+    <input type="text" name="title" id="title" value="<?= htmlspecialchars($quiz['title'] ?? '') ?>" required>
 
     <label for="topic">Topic</label>
     <input type="text" name="topic" id="topic" value="<?= htmlspecialchars($quiz['topic']) ?>" required>
@@ -208,6 +224,7 @@ $questions = $qStmt->get_result();
       <?php endwhile; ?>
     </div>
   </div>
-
+</div>
 </body>
+
 </html>

@@ -21,7 +21,17 @@ $result = $conn->query($query);
     body {
       font-family: 'Poppins', sans-serif;
       background: #f4f6f9;
+      margin: 0;
+    }
+
+    .content-wrapper {
+      margin-left: 220px;
       padding: 2rem;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.minimized + .content-wrapper {
+      margin-left: 70px;
     }
 
     h2 {
@@ -81,38 +91,49 @@ $result = $conn->query($query);
       margin-bottom: 1rem;
       text-decoration: none;
     }
+
+    /* Handle sidebar toggle layout shift */
+    @media (max-width: 768px) {
+      .content-wrapper {
+        margin-left: 70px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <h2>Manage Quizzes</h2>
-  <a href="create.php" class="add-btn">+ Create New Quiz</a>
+  <?php include '../navbar.php'; ?>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Topic</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php while ($quiz = $result->fetch_assoc()): ?>
+  <div class="content-wrapper">
+    <h2>Manage Quizzes</h2>
+    <a href="create.php" class="add-btn">+ Create New Quiz</a>
+
+    <table>
+      <thead>
         <tr>
-          <td><?= $quiz['id'] ?></td>
-          <td><?= htmlspecialchars($quiz['title']) ?></td>
-          <td><?= htmlspecialchars($quiz['topic']) ?></td>
-          <td><?= $quiz['created_at'] ?></td>
-          <td class="actions">
-            <a href="edit.php?id=<?= $quiz['id'] ?>" class="edit">Edit</a>
-            <a href="delete.php?id=<?= $quiz['id'] ?>" class="delete" onclick="return confirm('Are you sure?')">Delete</a>
-          </td>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Topic</th>
+          <th>Created At</th>
+          <th>Actions</th>
         </tr>
-      <?php endwhile; ?>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <?php while ($quiz = $result->fetch_assoc()): ?>
+          <tr>
+            <td><?= $quiz['id'] ?></td>
+            <td><?= htmlspecialchars($quiz['title']) ?></td>
+            <td><?= htmlspecialchars($quiz['topic']) ?></td>
+            <td><?= $quiz['created_at'] ?></td>
+            <td class="actions">
+              <a href="edit.php?id=<?= $quiz['id'] ?>" class="edit">Edit</a>
+              <a href="delete.php?id=<?= $quiz['id'] ?>" class="delete" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+          </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
+  </div>
 
 </body>
 </html>
