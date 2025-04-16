@@ -110,6 +110,10 @@ $role = htmlspecialchars($_SESSION['role']);
       <a href="/quiz-system/dashboard/quizzes/create.php" class="btn-action">➕ Create New Quiz</a>
       <a href="/quiz-system/dashboard/quizzes/manage.php" class="btn-action">🚩 Manage Your Quizzes</a>
     <?php endif; ?>
+
+    <?php if ($_SESSION['role'] === 'user') : ?>
+      <a href="/quiz-system/dashboard/quizzes/create.php" class="btn-action">➕ Join Quiz</a>
+    <?php endif; ?>
   </div>
 </div>
 
