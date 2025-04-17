@@ -15,12 +15,19 @@ $role = htmlspecialchars($_SESSION['role']);
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       background-color: #f4f6f9;
       font-family: 'Poppins', sans-serif;
+      color: #333;
     }
 
     .content-wrapper {
@@ -30,7 +37,7 @@ $role = htmlspecialchars($_SESSION['role']);
 
     .navbar {
       background: #4e73df;
-      color: white;
+      color: #fff;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
@@ -38,27 +45,9 @@ $role = htmlspecialchars($_SESSION['role']);
     }
 
     .navbar a {
-      color: white;
+      color: #fff;
       text-decoration: none;
       font-weight: 500;
-    }
-
-    .content {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 2rem;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    h1 {
-      margin-bottom: 1rem;
-      color: #333;
-    }
-
-    p {
-      color: #666;
     }
 
     .btn-logout {
@@ -66,12 +55,32 @@ $role = htmlspecialchars($_SESSION['role']);
       padding: 8px 16px;
       border-radius: 8px;
       text-decoration: none;
-      color: white;
+      color: #fff;
       font-weight: 500;
+      transition: background 0.3s ease;
     }
 
     .btn-logout:hover {
       background: #c0392b;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .content h1 {
+      font-size: 28px;
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      margin-bottom: 1rem;
+      color: #555;
     }
 
     .btn-action {
@@ -82,11 +91,30 @@ $role = htmlspecialchars($_SESSION['role']);
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    .btn-action:hover {
+      background-color: #0056b3;
     }
 
     @media (max-width: 768px) {
       .content-wrapper {
-        margin-left: 70px;
+        margin-left: 0;
+      }
+
+      .content {
+        margin: 2rem 1rem;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .btn-action {
+        width: 100%;
+        margin: 10px 0;
       }
     }
   </style>
