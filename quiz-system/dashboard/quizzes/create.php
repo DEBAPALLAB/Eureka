@@ -79,6 +79,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <input type="text" name="title" placeholder="Quiz Title" required>
       <textarea name="description" placeholder="Quiz Description" rows="4" required></textarea>
       <input type="text" name="topic" placeholder="Quiz Topic (e.g., Math, History)" required>
+      <input type="text" name="code" placeholder="Quiz Code" required>
       <button type="submit">Create Quiz</button>
     </form>
     <a href="manage.php" class="back">← Back to Manage Quizzes</a>
@@ -91,9 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $topic = $_POST['topic'];
+    $code = $_POST['code'];
 
-    $stmt = $conn->prepare("INSERT INTO quizzes (title, description, topic) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $title, $description, $topic);
+    $stmt = $conn->prepare("INSERT INTO quizzes (title, description, topic, quiz_code) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $title, $description, $topic, $code);
     $stmt->execute();
     header("Location: manage.php");
 }
