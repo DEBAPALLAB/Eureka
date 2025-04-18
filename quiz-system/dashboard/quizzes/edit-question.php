@@ -34,11 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $option_b = $_POST['option_b'];
     $option_c = $_POST['option_c'];
     $option_d = $_POST['option_d'];
-    $correct_option = $_POST['correct_option'];
+    $correct_ans = $_POST['correct_ans'];
 
-    $update = $conn->prepare("UPDATE questions SET question = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?, correct_option = ? WHERE id = ?");
-    $update->bind_param("ssssssi", $question_text, $option_a, $option_b, $option_c, $option_d, $correct_option, $question_id);
-    
+    $update = $conn->prepare("UPDATE questions SET question = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?, correct_ans = ? WHERE id = ?");
+    $update->bind_param("ssssssi", $question_text, $option_a, $option_b, $option_c, $option_d, $correct_ans, $question_id);
+
     if ($update->execute()) {
         $success = "Question updated successfully.";
         // Refresh question data
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_new'])) {
     $new_d = $_POST['new_d'];
     $new_correct = $_POST['new_correct'];
 
-    $insert = $conn->prepare("INSERT INTO questions (quiz_id, question, option_a, option_b, option_c, option_d, correct_option) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $insert = $conn->prepare("INSERT INTO questions (quiz_id, question, option_a, option_b, option_c, option_d, correct_ans) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $insert->bind_param("issssss", $quiz_id, $new_question, $new_a, $new_b, $new_c, $new_d, $new_correct);
 
     if ($insert->execute()) {
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_new'])) {
     <input type="text" name="option_d" value="<?= htmlspecialchars($question['option_d']) ?>" required>
 
     <label>Correct Option (a/b/c/d)</label>
-    <input type="text" name="correct_option" value="<?= htmlspecialchars($question['correct_option']) ?>" required>
+    <input type="text" name="correct_ans" value="<?= htmlspecialchars($question['correct_ans']) ?>" required>
 
     <button type="submit">Update Question</button>
   </form>
