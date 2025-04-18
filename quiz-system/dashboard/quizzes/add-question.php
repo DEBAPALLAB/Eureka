@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $d = $_POST['option_d'];
     $correct = $_POST['correct_option'];
 
-    $stmt = $conn->prepare("INSERT INTO questions (quiz_id, question, option_a, option_b, option_c, option_d, correct_option) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO questions (quiz_id, question, option_a, option_b, option_c, option_d, correct_ans) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("issssss", $quiz_id, $question, $a, $b, $c, $d, $correct);
     $stmt->execute();
     header("Location: add-question.php?quiz_id=" . $quiz_id); // Stay on same quiz

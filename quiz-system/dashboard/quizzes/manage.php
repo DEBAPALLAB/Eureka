@@ -114,6 +114,7 @@ $result = $conn->query($query);
           <th>ID</th>
           <th>Title</th>
           <th>Topic</th>
+          <th>Quiz Code</th>
           <th>Created At</th>
           <th>Actions</th>
         </tr>
@@ -124,6 +125,7 @@ $result = $conn->query($query);
             <td><?= $quiz['id'] ?></td>
             <td><?= htmlspecialchars($quiz['title']) ?></td>
             <td><?= htmlspecialchars($quiz['topic']) ?></td>
+            <td><?= htmlspecialchars($quiz['quiz_code']) ?></td>
             <td><?= $quiz['created_at'] ?></td>
             <td class="actions">
               <a href="edit.php?id=<?= $quiz['id'] ?>" class="edit">Edit</a>
