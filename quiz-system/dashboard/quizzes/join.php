@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../config/db.php');
+require_once('../../config/db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quiz_code = trim($_POST['quiz_code']);
@@ -14,14 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $quiz = $result->fetch_assoc();
         $quiz_id = $quiz['id'];
         $_SESSION['quiz_code'] = $quiz_code;
-        header("Location: test.php?quiz_id=$quiz_id");
+        unset($_SESSION['answers']);
+        header("Location: ../quizzes/test.php?quiz_id=$quiz_id");
         exit;
     } else {
         $_SESSION['join_error'] = "Invalid quiz code. Please try again.";
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
 } else {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
+?>
