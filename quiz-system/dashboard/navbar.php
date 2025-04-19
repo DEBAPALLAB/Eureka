@@ -6,6 +6,9 @@
   <a class="sidebar-btn" href="index.php">🏠 Home</a>
   <a class="sidebar-btn" href="stats.php">📊 Stats</a>
   <a class="sidebar-btn" href="register.php">📝 Register</a>
+
+  <!-- Logout Button at Bottom -->
+  <a class="sidebar-btn logout-btn" href="../auth/logout.php">🚪 Logout</a>
 </div>
 
 <style>
@@ -20,6 +23,8 @@
   overflow: hidden;
   z-index: 1000;
   padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
 
   /* Rounded right corners */
   border-top-right-radius: 40px;
@@ -56,5 +61,16 @@
 
 .sidebar-btn:hover {
   background-color: #e69500;
+}
+
+/* Logout button at the bottom */
+.logout-btn {
+  margin-top: auto;
+  background-color: #e74c3c;
+  color: white;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
 }
 </style>
