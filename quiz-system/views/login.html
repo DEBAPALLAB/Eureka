@@ -211,12 +211,12 @@
 
       if (pwd.type === "password") {
         pwd.type = "text";
-        openIcon.style.display = "none";
-        closedIcon.style.display = "inline";
-      } else {
-        pwd.type = "password";
         openIcon.style.display = "inline";
         closedIcon.style.display = "none";
+      } else {
+        pwd.type = "password";
+        openIcon.style.display = "none";
+        closedIcon.style.display = "inline";
       }
     }
 
