@@ -1,67 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eureka Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* Reset & Base */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
+
     body {
-      background: #f4f6f9;
+      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
+
+    /* Card */
     .card {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem 2rem;
       width: 100%;
-      max-width: 400px;
-      position: relative;
+      max-width: 420px;
+      border: 2px solid #000;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3); /* Orange shadow */
+      animation: fadeIn 1s ease;
     }
-    h2 {
+
+    /* Heading */
+    .main-heading {
       text-align: center;
       margin-bottom: 1.5rem;
-      color: #333;
+      color: #000;
+      font-size: 2rem;
+      font-weight: 600;
     }
+
+    /* Inputs */
     input {
       width: 100%;
-      padding: 12px;
+      padding: 12px 16px;
       margin-bottom: 1rem;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1rem;
+      background-color: #fafafa;
+      transition: border-color 0.2s, background-color 0.2s;
     }
+
+    input:focus {
+      outline: none;
+      border-color: #888;
+      background-color: #fff;
+    }
+
+    /* Password Toggle */
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-right: 44px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #333;
+    }
+
+    .toggle-password svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    /* Button */
     button {
       width: 100%;
-      background: #4e73df;
+      padding: 12px;
+      margin-top: 0.5rem;
+      background: orange;
       color: white;
       border: none;
-      padding: 12px;
       border-radius: 8px;
       font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
       transition: background 0.3s;
     }
+
     button:hover {
-      background: #2e59d9;
+      background: #e69500;
     }
+
+    /* Footer Text */
     p {
       text-align: center;
       margin-top: 1rem;
+      color: #555;
+      font-size: 0.9rem;
     }
+
     a {
-      color: #4e73df;
+      color: orange;
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: underline;
     }
@@ -97,30 +153,78 @@
     .hidden {
       display: none;
     }
+
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
-<body>
-  <div class="card" id="login-card">
-    <h2>Login</h2>
+<body style="background-image: url('Pictures/background.jpeg');">
+  <div class="card">
+    <h1 class="main-heading">Login</h1>
     <form id="login-form" action="../auth/login.php" method="POST" onsubmit="return delayedSubmit(event)">
-
-      <input type="email" name="email" placeholder="Email Address" required>
-      <input type="password" name="password" placeholder="Password" required>
+      <input type="email" name="email" placeholder="Email Address" required />
+      <div class="password-wrapper">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          required
+        />
+        <div class="toggle-password" onclick="togglePassword()">
+          <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="22" height="22">
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+            <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+          </svg>
+          <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="22" height="22" style="display: none;">
+            <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM22.676 12.553a11.249 11.249 0 0 1-2.631 4.31l-3.099-3.099a5.25 5.25 0 0 0-6.71-6.71L7.759 4.577a11.217 11.217 0 0 1 4.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113Z" />
+            <path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0 1 15.75 12ZM12.53 15.713l-4.243-4.244a3.75 3.75 0 0 0 4.244 4.243Z" />
+            <path d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 0 0-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 0 1 6.75 12Z" />
+          </svg>
+        </div>
+      </div>
       <button type="submit">Login</button>
     </form>
+
     <div class="loading-wrapper" id="loading">
       <div class="loader"></div>
       <div class="loading-text">Logging you in...</div>
     </div>
+
     <p>Don't have an account? <a href="register.html">Register</a></p>
   </div>
 
   <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      const openIcon = document.getElementById("eyeOpen");
+      const closedIcon = document.getElementById("eyeClosed");
+
+      if (pwd.type === "password") {
+        pwd.type = "text";
+        openIcon.style.display = "none";
+        closedIcon.style.display = "inline";
+      } else {
+        pwd.type = "password";
+        openIcon.style.display = "inline";
+        closedIcon.style.display = "none";
+      }
+    }
+
     function delayedSubmit(event) {
       event.preventDefault(); // stop immediate submission
       document.getElementById("login-form").classList.add("hidden");
       document.getElementById("loading").style.display = "block";
-  
+
       // Submit the form after a short delay
       setTimeout(() => {
         event.target.submit();
@@ -128,6 +232,5 @@
       return false;
     }
   </script>
-  
 </body>
 </html>
