@@ -176,14 +176,25 @@ $questions = $qStmt->get_result();
     }
 
     .main-content {
-  margin-left: 220px;
-  transition: margin-left 0.3s ease;
-  padding: 40px;
-}
+      margin-left: 220px;
+      transition: margin-left 0.3s ease;
+      padding: 40px;
+    }
 
-.sidebar.minimized ~ .main-content {
-  margin-left: 70px;
-}
+    .sidebar.minimized ~ .main-content {
+      margin-left: 70px;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #555;
+    }
+
+    a.back:hover {
+      text-decoration: underline;
+    }
 
   </style>
 </head>
@@ -207,7 +218,8 @@ $questions = $qStmt->get_result();
     <button type="submit" class="btn">Save Changes</button>
   </form>
 
-  <a href="add-question.php?quiz_id=<?= $quiz_id ?>" class="add-btn">➕ Add New Question</a>
+  <a href="add-question.php?quiz_id=<?= $quiz_id ?>" class="add-btn">➕ Add New Question</a><br>
+  <a href="manage.php" class="back">← Back to Manage Quizzes</a>
 
   <div class="questions-section">
     <h3>QUESTIONS</h3>
