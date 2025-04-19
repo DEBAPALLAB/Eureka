@@ -8,6 +8,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $name = htmlspecialchars($_SESSION['name']);
 $role = htmlspecialchars($_SESSION['role']);
+$join_error = $_SESSION['join_error'] ?? null;
+unset($_SESSION['join_error']);
 ?>
 
 <!DOCTYPE html>
@@ -98,6 +100,24 @@ $role = htmlspecialchars($_SESSION['role']);
       background-color: #0056b3;
     }
 
+    .error-message {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 12px 16px;
+      margin: 20px 0;
+      border-left: 4px solid #e74c3c;
+      border-radius: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
     @media (max-width: 768px) {
       .content-wrapper {
         margin-left: 0;
@@ -135,15 +155,17 @@ $role = htmlspecialchars($_SESSION['role']);
     <p>This is your dashboard. Use the navigation or side panel to manage quizzes and take tests.</p>
 
     <?php if ($_SESSION['role'] === 'admin') : ?>
-      <a href="/quiz-system/dashboard/quizzes/create.php" class="btn-action">➕ Create New Quiz</a>
-      <a href="/quiz-system/dashboard/quizzes/manage.php" class="btn-action">🚩 Manage Your Quizzes</a>
+      <a href="quizzes/create.php" class="btn-action">➕ Create New Quiz</a>
+      <a href="quizzes/manage.php" class="btn-action">🚩 Manage Your Quizzes</a>
     <?php endif; ?>
 
     <?php if ($_SESSION['role'] === 'user') : ?>
-      <a href="/quiz-system/dashboard/quizzes/create.php" class="btn-action">➕ Join Quiz</a>
+      <form action="quizzes/join.php" method="POST" style="margin-top: 1rem;">
+        <input type="text" name="quiz_code" placeholder="Enter Quiz Code" required>
+        <button type="submit" class="btn-action">➕ Join Quiz</button>
+      </form>
     <?php endif; ?>
   </div>
 </div>
-
 </body>
 </html>
