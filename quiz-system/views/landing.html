@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizPortal - Test Your Knowledge</title>
+    <!-- <link rel="stylesheet" href="landing.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  line-height: 1.6;
+  color: #333;
+  background: url("Pictures/background.jpeg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  background-color: #000;
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: orange;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links li {
+  margin-left: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: orange;
+}
+
+.login-btn {
+  padding: 0.5rem 1.2rem;
+  background-color: orange;
+  color: black !important;
+  border-radius: 5px;
+}
+
+.login-btn:hover {
+  background-color: #e69500;
+}
+
+/* Hero Section Styles */
+.hero {
+  background: rgba(0, 0, 0, 0.75);
+  color: orange;
+  padding: 5rem 5%;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cta-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.cta-btn:hover {
+  transform: translateY(-3px);
+  background-color: #e69500;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Features Section Styles */
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 5rem 5%;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background-color: white;
+}
+
+.feature-card {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 10px;
+  background: #fff5e6;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: orange;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.feature-card p {
+  color: #666;
+}
+
+/* Footer Styles */
+footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #000;
+  color: #999;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: column;
+      padding: 1rem;
+  }
+
+  .nav-links {
+      margin-top: 1rem;
+  }
+
+  .nav-links li {
+      margin-left: 1rem;
+  }
+
+  .hero h1 {
+      font-size: 2.2rem;
+  }
+
+  .features {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .feature-card {
+      width: 100%;
+      max-width: 100%;
+  }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">QuizPortal</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="login.html" class="login-btn">Login</a></li>
+                <li><a href="register.html" class="login-btn">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Test Your Knowledge</h1>
+                <p>Join thousands of learners and take quizzes that make learning fun and effective.</p>
+                <a href="login.html"><button class="cta-btn">Get Started</button></a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <i class="fas fa-mouse-pointer feature-icon"></i>
+                <h3>Easy to Use</h3>
+                <p>Clean and intuitive interface so you can focus on learning.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h3>Track Progress</h3>
+                <p>Get detailed insights and keep improving with every quiz.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-book-open feature-icon"></i>
+                <h3>Variety of Topics</h3>
+                <p>From science to history — challenge yourself on every subject!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 QuizPortal. All rights reserved.</p>
+    </footer>
+</body>
+</html>
