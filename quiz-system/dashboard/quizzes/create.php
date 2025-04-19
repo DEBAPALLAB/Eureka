@@ -12,41 +12,59 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 <head>
   <meta charset="UTF-8">
   <title>Create Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap">
   <style>
     body {
       font-family: 'Rubik', sans-serif;
-      background: #f0f2f5;
-      padding: 40px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #f5f5f5;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .container {
-      background: #fff;
+      background: rgba(0, 0, 0, 0.75);
+      width: 100%;
       max-width: 600px;
-      margin: 0 auto;
       padding: 2rem;
       border-radius: 1.5rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
     }
 
     h2 {
       text-align: center;
       margin-bottom: 1.5rem;
-      color: #333;
+      color: #ff9800;
     }
 
     input, textarea {
       width: 100%;
       padding: 12px;
       margin-bottom: 1rem;
-      border: 1px solid #ccc;
+      border: 1px solid #555;
       border-radius: 10px;
       font-size: 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #f0f0f0;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #aaa;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #ff9800;
+      box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
     }
 
     button {
-      background: #673ab7;
-      color: white;
+      background: #ff9800;
+      color: #000;
       border: none;
       padding: 12px 20px;
       border-radius: 10px;
@@ -54,17 +72,18 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       font-size: 1rem;
       width: 100%;
       transition: all 0.3s ease;
+      font-weight: 600;
     }
 
     button:hover {
-      background: #5e35b1;
+      background: #e68900;
     }
 
     a.back {
       display: inline-block;
       margin-top: 1rem;
       text-decoration: none;
-      color: #555;
+      color: #ff9800;
     }
 
     a.back:hover {
