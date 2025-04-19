@@ -9,7 +9,7 @@ if (!isset($_SESSION['quiz_code'])) {
 
 $quiz_code = $_SESSION['quiz_code'];
 
-$stmt = $conn->prepare("SELECT id FROM quizzes WHERE quiz_code = ?");
+$stmt = $conn->prepare("SELECT id, title FROM quizzes WHERE quiz_code = ?");
 $stmt->bind_param("s", $quiz_code);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -21,6 +21,8 @@ if ($result->num_rows === 0) {
 
 $quiz = $result->fetch_assoc();
 $quiz_id = $quiz['id'];
+$quiz_title = htmlspecialchars($quiz['title']);
+$_SESSION['quiz_id'] = $quiz_id;
 
 $stmt = $conn->prepare("SELECT * FROM questions WHERE quiz_id = ?");
 $stmt->bind_param("i", $quiz_id);
@@ -34,7 +36,7 @@ $current = max(0, min($current, $total_questions - 1));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $selected = $_POST['answer'] ?? null;
-    $_SESSION['answers'][$current] = $selected;
+    $_SESSION['answers'][$questions[$current]['id']] = $selected;
 
     if (isset($_POST['next'])) {
         header("Location: test.php?q=" . ($current + 1));
@@ -43,13 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: test.php?q=" . ($current - 1));
         exit;
     } elseif (isset($_POST['submit'])) {
-        header("Location: result.php?quiz_id=$quiz_id");
+        $_SESSION['quiz_id'] = $quiz_id;
+        header("Location: result.php");
         exit;
     }
 }
 
 $question = $questions[$current];
-$stored_answer = $_SESSION['answers'][$current] ?? '';
+$stored_answer = $_SESSION['answers'][$question['id']] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -72,6 +75,12 @@ $stored_answer = $_SESSION['answers'][$current] ?? '';
       padding: 2rem;
       border-radius: 1.5rem;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .container h1 {
+      color: #4e73df;
+      margin-bottom: 1rem;
+      font-size: 28px;
     }
 
     h2 {
@@ -101,12 +110,25 @@ $stored_answer = $_SESSION['answers'][$current] ?? '';
     button:hover {
       background: #2e59d9;
     }
+
+    a.back {
+      text-align: center;
+      display: block;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #555;
+    }
+
+    a.back:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 <div class="container">
   <form method="POST">
-    <h2>Question <?= $current + 1 ?> of <?= $total_questions ?></h2>
+    <h1><?= $quiz_title ?></h1>
+    <h3>Question <?= $current + 1 ?> of <?= $total_questions ?></h3>
     <p><?= htmlspecialchars($question['question']) ?></p>
 
     <?php foreach (['a' => 'option_a', 'b' => 'option_b', 'c' => 'option_c', 'd' => 'option_d'] as $key => $opt): ?>
@@ -129,5 +151,7 @@ $stored_answer = $_SESSION['answers'][$current] ?? '';
     <?php endif; ?>
   </form>
 </div>
+<a href="../index.php" class="back">← Back to Dashboard</a>
+
 </body>
 </html>

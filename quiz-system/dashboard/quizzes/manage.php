@@ -92,6 +92,25 @@ $result = $conn->query($query);
       text-decoration: none;
     }
 
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .back-btn {
+      background-color: #6c757d;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background-color: #5a6268;
+    }
+
     /* Handle sidebar toggle layout shift */
     @media (max-width: 768px) {
       .content-wrapper {
@@ -106,7 +125,11 @@ $result = $conn->query($query);
 
   <div class="content-wrapper">
     <h2>Manage Quizzes</h2>
-    <a href="create.php" class="add-btn">+ Create New Quiz</a>
+    
+    <div class="top-bar">
+      <a href="create.php" class="add-btn">+ Create New Quiz</a>
+      <a href="../index.php" class="back-btn">← Go back to Dashboard</a>
+    </div>
 
     <table>
       <thead>
