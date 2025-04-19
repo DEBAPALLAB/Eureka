@@ -27,9 +27,10 @@ unset($_SESSION['join_error']);
     }
 
     body {
-      background-color: #f4f6f9;
+      background: url('white.jpeg') no-repeat center center fixed;
+      background-size: cover;
       font-family: 'Poppins', sans-serif;
-      color: #333;
+      color: #fff;
     }
 
     .content-wrapper {
@@ -37,67 +38,44 @@ unset($_SESSION['join_error']);
       transition: margin-left 0.3s ease;
     }
 
-    .navbar {
-      background: #4e73df;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .navbar a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .btn-logout {
-      background: #e74c3c;
-      padding: 8px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: 500;
-      transition: background 0.3s ease;
-    }
-
-    .btn-logout:hover {
-      background: #c0392b;
-    }
-
     .content {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 2rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 400px;
+      margin: 5rem auto;
+      padding: 2.5rem;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
+      text-align: center;
     }
 
     .content h1 {
       font-size: 28px;
       margin-bottom: 1rem;
+      text-align: center;
     }
 
     .content p {
       margin-bottom: 1rem;
-      color: #555;
+      color: #ccc;
+      text-align: center;
     }
 
     .btn-action {
       display: inline-block;
       margin: 20px 10px 0 0;
       padding: 10px 20px;
-      background-color: #007bff;
+      background-color: orange;
       color: #fff;
       text-decoration: none;
-      border-radius: 5px;
+      border-radius: 8px;
       transition: background 0.3s ease;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
     }
 
     .btn-action:hover {
-      background-color: #0056b3;
+      background-color: #e69500;
     }
 
     .error-message {
@@ -116,6 +94,12 @@ unset($_SESSION['join_error']);
       border: 1px solid #ccc;
       margin-bottom: 1rem;
       font-size: 1rem;
+      background-color: #2a2a2a;
+      color: #fff;
+    }
+
+    input[type="text"]::placeholder {
+      color: #bbb;
     }
 
     @media (max-width: 768px) {
@@ -125,11 +109,7 @@ unset($_SESSION['join_error']);
 
       .content {
         margin: 2rem 1rem;
-      }
-
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
+        width: auto;
       }
 
       .btn-action {
@@ -140,15 +120,8 @@ unset($_SESSION['join_error']);
   </style>
 </head>
 <body>
-
-<?php include("navbar.php"); ?>
-
+<?php include ("navbar.php"); ?>
 <div class="content-wrapper">
-  <div class="navbar">
-    <div><strong>Quiz Dashboard</strong></div>
-    <div><a href="../auth/logout.php" class="btn-logout">Logout</a></div>
-  </div>
-
   <div class="content">
     <h1>Welcome, <?= $name ?>!</h1>
     <p>You are logged in as <strong><?= ucfirst($role) ?></strong>.</p>
@@ -167,5 +140,6 @@ unset($_SESSION['join_error']);
     <?php endif; ?>
   </div>
 </div>
+
 </body>
 </html>
