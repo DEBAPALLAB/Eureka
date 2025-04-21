@@ -19,11 +19,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   padding: 0;
 }
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   font-family: 'Rubik', sans-serif;
   background: url('white.jpeg') no-repeat center center fixed;
   background-size: cover;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,8 +48,8 @@ body {
 .container {
   position: relative;
   z-index: 1;
-  max-width: 600px;
   width: 100%;
+  max-width: 600px;
   background: linear-gradient(135deg, rgba(40, 40, 40, 0.85), rgba(20, 20, 20, 0.85));
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 152, 0, 0.05);
@@ -53,6 +57,7 @@ body {
   border-radius: 1.75rem;
   padding: 2.5rem 2rem;
   transition: all 0.3s ease-in-out;
+  overflow: hidden; /* Scrollbar removed */
 }
 
 .container:hover {
@@ -139,6 +144,7 @@ button {
 button:hover {
   background-color: #e68900;
 }
+
 option {
   background-color: #222;
   color: #f5f5f5;
@@ -160,7 +166,7 @@ option {
       <label for="quiz_code">Quiz Code</label>
       <input type="text" name="quiz_code" id="quiz_code" required>
 
-      <label for="topic">Topic / Subject</label>
+      <label for="subject">Topic / Subject</label>
       <input type="text" name="subject" id="subject" required>
 
       <label for="difficulty">Difficulty Level</label>

@@ -27,7 +27,7 @@ if (!$question) {
 $quiz_id = $question['quiz_id'];
 $success = '';
 
-// Update question logic
+// Update logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $question_text = $_POST['question'];
     $option_a = $_POST['option_a'];
@@ -41,13 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
     if ($update->execute()) {
         $success = "Question updated successfully.";
-        // Refresh question data
         $stmt->execute();
         $question = $stmt->get_result()->fetch_assoc();
     }
 }
 
-// Add new question logic
+// Add logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_new'])) {
     $new_question = $_POST['new_question'];
     $new_a = $_POST['new_a'];
@@ -69,87 +68,105 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_new'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Edit Question</title>
+  <title>Edit & Add Questions</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Rubik', sans-serif;
-      background: #f5f5f5;
-      padding: 40px;
-      position: relative;
+      margin: 0;
+      padding: 0;
+      background: url('white.jpeg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.75);
+      min-height: 100vh;
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card {
+      background: rgba(40, 40, 40, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     h2 {
-      font-size: 2rem;
+      color: #ff9800;
+      text-align: center;
       margin-bottom: 1rem;
     }
 
-    form {
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      margin-bottom: 40px;
-      max-width: 700px;
-    }
-
-    label {
-      margin-top: 1rem;
+    form label {
       display: block;
-      font-weight: 500;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #f0f0f0;
     }
 
     input, textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 8px;
+      margin-top: 0.5rem;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #fff;
       font-size: 1rem;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #ff9800;
+      box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
     }
 
     button {
       margin-top: 20px;
-      background: #4e73df;
-      color: white;
+      width: 100%;
+      padding: 12px;
+      background-color: #ff9800;
+      color: #000;
       border: none;
-      padding: 10px 20px;
       border-radius: 10px;
+      font-weight: bold;
       font-size: 1rem;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
-      background: #365dc9;
+      background-color: #e88d00;
     }
 
     .success {
       background: #d4edda;
       color: #155724;
       border: 1px solid #c3e6cb;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
       margin-bottom: 20px;
-    }
-
-    .section-title {
-      margin-top: 60px;
-      margin-bottom: 10px;
-      font-size: 1.5rem;
+      text-align: center;
     }
 
     .back-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
+      text-align: center;
       background: #2c3e50;
       color: white;
       padding: 12px 20px;
-      border-radius: 12px;
-      font-size: 1rem;
+      border-radius: 10px;
       text-decoration: none;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      transition: 0.3s ease;
+      font-weight: 600;
+      transition: background 0.3s;
     }
 
     .back-btn:hover {
@@ -158,63 +175,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_new'])) {
   </style>
 </head>
 <body>
+  <div class="overlay">
+    <?php if ($success): ?>
+      <div class="card">
+        <div class="success"><?= htmlspecialchars($success) ?></div>
+      </div>
+    <?php endif; ?>
 
-  <h2>Edit Question</h2>
+    <!-- Edit Existing Question -->
+    <div class="card">
+      <h2>✏️ Edit Existing Question</h2>
+      <form method="POST">
+        <input type="hidden" name="update" value="1">
 
-  <?php if ($success): ?>
-    <div class="success"><?= htmlspecialchars($success) ?></div>
-  <?php endif; ?>
+        <label>Question</label>
+        <textarea name="question" required><?= htmlspecialchars($question['question']) ?></textarea>
 
-  <form method="POST">
-    <input type="hidden" name="update" value="1">
-    <label>Question</label>
-    <textarea name="question" required><?= htmlspecialchars($question['question']) ?></textarea>
+        <label>Option A</label>
+        <input type="text" name="option_a" value="<?= htmlspecialchars($question['option_a']) ?>" required>
 
-    <label>Option A</label>
-    <input type="text" name="option_a" value="<?= htmlspecialchars($question['option_a']) ?>" required>
+        <label>Option B</label>
+        <input type="text" name="option_b" value="<?= htmlspecialchars($question['option_b']) ?>" required>
 
-    <label>Option B</label>
-    <input type="text" name="option_b" value="<?= htmlspecialchars($question['option_b']) ?>" required>
+        <label>Option C</label>
+        <input type="text" name="option_c" value="<?= htmlspecialchars($question['option_c']) ?>" required>
 
-    <label>Option C</label>
-    <input type="text" name="option_c" value="<?= htmlspecialchars($question['option_c']) ?>" required>
+        <label>Option D</label>
+        <input type="text" name="option_d" value="<?= htmlspecialchars($question['option_d']) ?>" required>
 
-    <label>Option D</label>
-    <input type="text" name="option_d" value="<?= htmlspecialchars($question['option_d']) ?>" required>
+        <label>Correct Option (a/b/c/d)</label>
+        <input type="text" name="correct_ans" value="<?= htmlspecialchars($question['correct_ans']) ?>" required>
 
-    <label>Correct Option (a/b/c/d)</label>
-    <input type="text" name="correct_ans" value="<?= htmlspecialchars($question['correct_ans']) ?>" required>
+        <button type="submit">Update Question</button>
+      </form>
+    </div>
 
-    <button type="submit">Update Question</button>
-  </form>
+    <!-- Add New Question -->
+    <div class="card">
+      <h2>➕ Add New Question</h2>
+      <form method="POST">
+        <input type="hidden" name="add_new" value="1">
 
-  <div class="section-title">Add New Question</div>
+        <label>Question</label>
+        <textarea name="new_question" required></textarea>
 
-  <form method="POST">
-    <input type="hidden" name="add_new" value="1">
-    <label>Question</label>
-    <textarea name="new_question" required></textarea>
+        <label>Option A</label>
+        <input type="text" name="new_a" required>
 
-    <label>Option A</label>
-    <input type="text" name="new_a" required>
+        <label>Option B</label>
+        <input type="text" name="new_b" required>
 
-    <label>Option B</label>
-    <input type="text" name="new_b" required>
+        <label>Option C</label>
+        <input type="text" name="new_c" required>
 
-    <label>Option C</label>
-    <input type="text" name="new_c" required>
+        <label>Option D</label>
+        <input type="text" name="new_d" required>
 
-    <label>Option D</label>
-    <input type="text" name="new_d" required>
+        <label>Correct Option (a/b/c/d)</label>
+        <input type="text" name="new_correct" required>
 
-    <label>Correct Option (a/b/c/d)</label>
-    <input type="text" name="new_correct" required>
+        <button type="submit">Add Question</button>
+      </form>
+    </div>
 
-    <button type="submit">Add Question</button>
-  </form>
-
-  <!-- Floating Back Button -->
-  <a href="edit.php?id=<?= $quiz_id ?>" class="back-btn">← Back to Quiz</a>
-
+    <a href="edit.php?id=<?= $quiz_id ?>" class="back-btn">← Back to Quiz</a>
+  </div>
 </body>
 </html>

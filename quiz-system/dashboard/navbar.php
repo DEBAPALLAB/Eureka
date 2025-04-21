@@ -1,12 +1,11 @@
 <div class="sidebar">
   <div class="overlay"></div> <!--Transparent layer behind content -->
-
+  
   <!-- Sidebar Content -->
   <h2 class="logo">Quizzy</h2>
   <a class="sidebar-btn" href="index.php">🏠 Home</a>
   <a class="sidebar-btn" href="<?= $role === 'admin' ? 'admin-stats.php' : 'user-stats.php' ?>">📊 Stats</a>
   <a class="sidebar-btn" href="register.php">📝 Register</a>
-
   <!-- Logout Button at Bottom -->
   <a class="sidebar-btn logout-btn" href="../auth/logout.php">🚪 Logout</a>
 </div>
@@ -25,7 +24,8 @@
   padding: 30px 20px;
   display: flex;
   flex-direction: column;
-
+  overflow-y: auto;
+  box-sizing: border-box;
   /* Rounded right corners */
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
@@ -67,6 +67,7 @@
 .logout-btn {
   margin-top: auto;
   background-color: #e74c3c;
+  flex-shrink: 0; /* Prevent shrinking */
   color: white;
 }
 
