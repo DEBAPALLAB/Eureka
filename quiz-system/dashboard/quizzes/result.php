@@ -7,15 +7,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     exit;
 }
 
-if (!isset($_SESSION['answers']) || !isset($_SESSION['quiz_id'])) {
-    echo "Session expired. Please rejoin the quiz.";
+$quiz_id = $_SESSION['quiz_id'] ?? $_GET['quiz_id'] ?? null;
+$user_id = $_SESSION['user_id'] ?? $_GET['user_id'] ?? null;
+
+if (!$quiz_id || !$user_id) {
+    echo "Session expired or invalid request. Please rejoin the quiz.";
     exit;
 }
 
-$quiz_id = $_SESSION['quiz_id'];
-$user_answers = $_SESSION['answers'];
-
-// Fetch quiz title
+// Fetch quiz title (common for both new and existing attempts)
 $title_stmt = $conn->prepare("SELECT title FROM quizzes WHERE id = ?");
 $title_stmt->bind_param("i", $quiz_id);
 $title_stmt->execute();
@@ -25,58 +25,95 @@ if ($title_result->num_rows > 0) {
     $quiz_title = $title_result->fetch_assoc()['title'];
 }
 
-$sql = "SELECT id, correct_ans FROM questions WHERE quiz_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $quiz_id);
-$stmt->execute();
-$result = $stmt->get_result();
+// Check if result already exists
+$check_stmt = $conn->prepare("SELECT * FROM user_results WHERE user_id = ? AND quiz_id = ?");
+$check_stmt->bind_param("ii", $user_id, $quiz_id);
+$check_stmt->execute();
+$result_check = $check_stmt->get_result();
 
-$total_questions = $result->num_rows;
-$correct = 0;
-$answered_qids = array_keys($user_answers);
-$all_question_ids = [];
-
-while ($row = $result->fetch_assoc()) {
-  $qid = $row['id'];
-  $correct_option = strtoupper(trim($row['correct_ans']));
-  $all_question_ids[] = $qid;
-
-  if (isset($user_answers[$qid]) && strtoupper(trim($user_answers[$qid])) === $correct_option) {
-      $correct++;
-  }
-}
-
-$unanswered = 0;
-foreach ($all_question_ids as $qid) {
-    if (!isset($user_answers[$qid]) || $user_answers[$qid] === null || $user_answers[$qid] === '') {
-        $unanswered++;
+if ($result_check->num_rows > 0) {
+    $existing_result = $result_check->fetch_assoc();
+    $correct = $existing_result['correct'];
+    $incorrect = $existing_result['incorrect'];
+    $unanswered = $existing_result['unanswered'];
+    $total_questions = $existing_result['total_questions'];
+    $percentage = $total_questions > 0 ? round(($correct / $total_questions) * 100, 2) : 0;
+} else {
+    if (!isset($_SESSION['answers'])) {
+        echo "Session expired. Please rejoin the quiz.";
+        exit;
     }
-}
 
-$incorrect = $total_questions - $correct - $unanswered;
-$percentage = $total_questions > 0 ? round(($correct / $total_questions) * 100, 2) : 0;
+    $user_answers = $_SESSION['answers'];
+
+    // Fetch quiz title
+    $title_stmt = $conn->prepare("SELECT title FROM quizzes WHERE id = ?");
+    $title_stmt->bind_param("i", $quiz_id);
+    $title_stmt->execute();
+    $title_result = $title_stmt->get_result();
+    $quiz_title = "Quiz";
+    if ($title_result->num_rows > 0) {
+        $quiz_title = $title_result->fetch_assoc()['title'];
+    }
+
+    $sql = "SELECT id, correct_ans FROM questions WHERE quiz_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $quiz_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $total_questions = $result->num_rows;
+    $correct = 0;
+    $answered_qids = array_keys($user_answers);
+    $all_question_ids = [];
+
+    while ($row = $result->fetch_assoc()) {
+      $qid = $row['id'];
+      $correct_option = strtoupper(trim($row['correct_ans']));
+      $all_question_ids[] = $qid;
+
+      if (isset($user_answers[$qid]) && strtoupper(trim($user_answers[$qid])) === $correct_option) {
+          $correct++;
+      }
+    }
+
+    $unanswered = 0;
+    foreach ($all_question_ids as $qid) {
+        if (!isset($user_answers[$qid]) || $user_answers[$qid] === null || $user_answers[$qid] === '') {
+            $unanswered++;
+        }
+    }
+
+    $incorrect = $total_questions - $correct - $unanswered;
+    $percentage = $total_questions > 0 ? round(($correct / $total_questions) * 100, 2) : 0;
+
+    // Save result to DB
+    $insert = $conn->prepare("INSERT INTO user_results (user_id, quiz_id, score, total_questions, correct, incorrect, unanswered) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $insert->bind_param("iiiiiii", $user_id, $quiz_id, $percentage, $total_questions, $correct, $incorrect, $unanswered);
+    $insert->execute();
+
+    // Clear session data
+    unset($_SESSION['answers']);
+    unset($_SESSION['quiz_id']);
+}
 
 // Determine performance message and color
 if ($percentage >= 90) {
     $message = "Excellent work! You're a quiz master 🎉";
-    $color = "#4CAF50"; // Green
+    $color = "#4CAF50";
 } elseif ($percentage >= 75) {
     $message = "Great job! Almost perfect 💪";
-    $color = "#9ACD32"; // Lime green
+    $color = "#9ACD32";
 } elseif ($percentage >= 50) {
     $message = "Good effort! Keep practicing 👍";
-    $color = "#fbc02d"; // Yellow
+    $color = "#fbc02d";
 } elseif ($percentage >= 30) {
     $message = "Not bad, but there's room for improvement 🔄";
-    $color = "#FF9800"; // Orange
+    $color = "#FF9800";
 } else {
     $message = "Keep trying, you'll get there! 💡";
-    $color = "#e53935"; // Red
+    $color = "#e53935";
 }
-
-// Clear answers session so refresh doesn't resubmit
-unset($_SESSION['answers']);
-unset($_SESSION['quiz_id']);
 ?>
 
 <!DOCTYPE html>
@@ -160,3 +197,4 @@ unset($_SESSION['quiz_id']);
     </div>
 </body>
 </html>
+

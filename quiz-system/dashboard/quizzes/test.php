@@ -2,12 +2,13 @@
 session_start();
 require_once('../../config/db.php');
 
-if (!isset($_SESSION['quiz_code'])) {
-    header("Location: index.php");
+if (!isset($_SESSION['quiz_code']) || !isset($_SESSION['user_id'])) {
+    header("Location: ../index.php");
     exit;
 }
 
 $quiz_code = $_SESSION['quiz_code'];
+$user_id = $_SESSION['user_id'];
 
 $stmt = $conn->prepare("SELECT id, title FROM quizzes WHERE quiz_code = ?");
 $stmt->bind_param("s", $quiz_code);
@@ -67,7 +68,6 @@ $stored_answer = $_SESSION['answers'][$question['id']] ?? '';
       background: #f4f6f9;
       padding: 40px;
     }
-
     .container {
       background: white;
       max-width: 700px;
@@ -76,26 +76,21 @@ $stored_answer = $_SESSION['answers'][$question['id']] ?? '';
       border-radius: 1.5rem;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
-
     .container h1 {
       color: #4e73df;
       margin-bottom: 1rem;
       font-size: 28px;
     }
-
-    h2 {
+    h3 {
       color: #444;
       margin-bottom: 1rem;
     }
-
     .option {
       margin-bottom: 1rem;
     }
-
     .option input {
       margin-right: 10px;
     }
-
     button {
       background: #4e73df;
       color: white;
@@ -106,11 +101,9 @@ $stored_answer = $_SESSION['answers'][$question['id']] ?? '';
       cursor: pointer;
       margin-right: 10px;
     }
-
     button:hover {
       background: #2e59d9;
     }
-
     a.back {
       text-align: center;
       display: block;
@@ -118,7 +111,6 @@ $stored_answer = $_SESSION['answers'][$question['id']] ?? '';
       text-decoration: none;
       color: #555;
     }
-
     a.back:hover {
       text-decoration: underline;
     }

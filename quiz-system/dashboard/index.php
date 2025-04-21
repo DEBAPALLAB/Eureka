@@ -129,7 +129,6 @@ unset($_SESSION['join_error']);
 
     <?php if ($_SESSION['role'] === 'admin') : ?>
       <a href="quizzes/create.php" class="btn-action">➕ Create New Quiz</a>
-      <a href="quizzes/ai-quiz.php" class="btn-action" style="background-color: #6f42c1;">🧠 Create New AI Quiz</a>
       <a href="quizzes/manage.php" class="btn-action">🚩 Manage Your Quizzes</a>
     <?php endif; ?>
 
