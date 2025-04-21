@@ -4,7 +4,7 @@
   <!-- Sidebar Content -->
   <h2 class="logo">Quizzy</h2>
   <a class="sidebar-btn" href="index.php">🏠 Home</a>
-  <a class="sidebar-btn" href="stats.php">📊 Stats</a>
+  <a class="sidebar-btn" href="<?= $role === 'admin' ? 'admin-stats.php' : 'user-stats.php' ?>">📊 Stats</a>
   <a class="sidebar-btn" href="register.php">📝 Register</a>
 
   <!-- Logout Button at Bottom -->

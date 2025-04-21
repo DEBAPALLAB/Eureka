@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../config/db.php';
+require_once '../config/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header('Location: ../auth/login.html');
@@ -158,7 +158,7 @@ if ($user_row = $user_result->fetch_assoc()) {
 </head>
 <body>
 
-<?php include("../navbar.php"); ?>
+<?php include("navbar.php"); ?>
 
 <div class="sticky-header"><?= $user_name ?>'s Statistics</div>
 
@@ -203,7 +203,7 @@ if ($user_row = $user_result->fetch_assoc()) {
             <td><?= $row['unanswered'] ?></td>
             <td><?= round($row['score'], 2) ?>%</td>
             <td><?= date('d M Y, H:i', strtotime($row['attempted_at'])) ?></td>
-            <td><a class="btn-view" href="result.php?quiz_id=<?= $row['quiz_id'] ?>">View Result</a></td>
+            <td><a class="btn-view" href="quizzes/result.php?quiz_id=<?= $row['quiz_id'] ?>">View Result</a></td>
           </tr>
         <?php endforeach; ?>
       </tbody>

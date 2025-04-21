@@ -2,28 +2,29 @@
 session_start();
 require_once '../../config/db.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
+if (!isset($_SESSION['user_id'])) {
     header('Location: ../auth/login.html');
     exit;
 }
 
+$session_user_id = $_SESSION['user_id'];
+$is_admin = $_SESSION['role'] === 'admin';
+
+// Determine whose result to show
 $quiz_id = $_SESSION['quiz_id'] ?? $_GET['quiz_id'] ?? null;
-$user_id = $_SESSION['user_id'] ?? $_GET['user_id'] ?? null;
+$user_id = $is_admin ? ($_GET['user_id'] ?? null) : $session_user_id;
 
 if (!$quiz_id || !$user_id) {
     echo "Session expired or invalid request. Please rejoin the quiz.";
     exit;
 }
 
-// Fetch quiz title (common for both new and existing attempts)
+// Fetch quiz title
 $title_stmt = $conn->prepare("SELECT title FROM quizzes WHERE id = ?");
 $title_stmt->bind_param("i", $quiz_id);
 $title_stmt->execute();
 $title_result = $title_stmt->get_result();
-$quiz_title = "Quiz";
-if ($title_result->num_rows > 0) {
-    $quiz_title = $title_result->fetch_assoc()['title'];
-}
+$quiz_title = ($title_result->num_rows > 0) ? $title_result->fetch_assoc()['title'] : "Quiz";
 
 // Check if result already exists
 $check_stmt = $conn->prepare("SELECT * FROM user_results WHERE user_id = ? AND quiz_id = ?");
@@ -46,16 +47,6 @@ if ($result_check->num_rows > 0) {
 
     $user_answers = $_SESSION['answers'];
 
-    // Fetch quiz title
-    $title_stmt = $conn->prepare("SELECT title FROM quizzes WHERE id = ?");
-    $title_stmt->bind_param("i", $quiz_id);
-    $title_stmt->execute();
-    $title_result = $title_stmt->get_result();
-    $quiz_title = "Quiz";
-    if ($title_result->num_rows > 0) {
-        $quiz_title = $title_result->fetch_assoc()['title'];
-    }
-
     $sql = "SELECT id, correct_ans FROM questions WHERE quiz_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $quiz_id);
@@ -68,13 +59,13 @@ if ($result_check->num_rows > 0) {
     $all_question_ids = [];
 
     while ($row = $result->fetch_assoc()) {
-      $qid = $row['id'];
-      $correct_option = strtoupper(trim($row['correct_ans']));
-      $all_question_ids[] = $qid;
+        $qid = $row['id'];
+        $correct_option = strtoupper(trim($row['correct_ans']));
+        $all_question_ids[] = $qid;
 
-      if (isset($user_answers[$qid]) && strtoupper(trim($user_answers[$qid])) === $correct_option) {
-          $correct++;
-      }
+        if (isset($user_answers[$qid]) && strtoupper(trim($user_answers[$qid])) === $correct_option) {
+            $correct++;
+        }
     }
 
     $unanswered = 0;
@@ -92,9 +83,11 @@ if ($result_check->num_rows > 0) {
     $insert->bind_param("iiiiiii", $user_id, $quiz_id, $percentage, $total_questions, $correct, $incorrect, $unanswered);
     $insert->execute();
 
-    // Clear session data
-    unset($_SESSION['answers']);
-    unset($_SESSION['quiz_id']);
+    // Clear session data only if it's the logged-in user (not admin viewing someone else)
+    if (!$is_admin || $user_id == $session_user_id) {
+        unset($_SESSION['answers']);
+        unset($_SESSION['quiz_id']);
+    }
 }
 
 // Determine performance message and color
@@ -180,21 +173,24 @@ if ($percentage >= 90) {
     </style>
 </head>
 <body>
-    <div class="result-container">
-        <h1><?= htmlspecialchars($quiz_title) ?></h1>
-        <h2>Your Score</h2>
-        <div class="score-box">
-            <?= $percentage ?>%<br>
-            <small style="font-size: 1rem; font-weight: 400;"><?= $message ?></small>
-        </div>
-        <div class="stats">
-            <p><strong>Total Questions:</strong> <?= $total_questions ?></p>
-            <p><strong>Correct Answers:</strong> <?= $correct ?></p>
-            <p><strong>Incorrect Answers:</strong> <?= $incorrect ?></p>
-            <p><strong>Unanswered:</strong> <?= $unanswered ?></p>
-        </div>
-        <a href="../index.php" class="btn">Back to Dashboard</a>
+<div class="result-container">
+    <h1><?= htmlspecialchars($quiz_title) ?></h1>
+    <h2>Your Score</h2>
+    <div class="score-box">
+        <?= $percentage ?>%<br>
+        <small style="font-size: 1rem; font-weight: 400;"><?= $message ?></small>
     </div>
+    <div class="stats">
+        <p><strong>Total Questions:</strong> <?= $total_questions ?></p>
+        <p><strong>Correct Answers:</strong> <?= $correct ?></p>
+        <p><strong>Incorrect Answers:</strong> <?= $incorrect ?></p>
+        <p><strong>Unanswered:</strong> <?= $unanswered ?></p>
+    </div>
+    <?php if ($is_admin && $user_id !== $session_user_id): ?>
+        <a href="../view-user-stats.php?user_id=<?= $user_id ?>" class="btn">Back to User Stats</a>
+    <?php else: ?>
+        <a href="../index.php" class="btn">Back to Dashboard</a>
+    <?php endif; ?>
+</div>
 </body>
 </html>
-
