@@ -136,7 +136,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <h2>Create a New Quiz</h2>
     <form action="create.php" method="POST">
       <input type="text" name="title" placeholder="Quiz Title" required>
-      <textarea name="description" placeholder="Quiz Description" rows="4" required></textarea>
+      <textarea name="description" placeholder="Quiz Description" rows="4"></textarea>
       <input type="text" name="topic" placeholder="Quiz Topic (e.g., Math, History)" required>
       <input type="text" name="code" placeholder="Quiz Code" required>
       <button type="submit">Create Quiz</button>
