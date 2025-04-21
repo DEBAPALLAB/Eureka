@@ -16,18 +16,27 @@ $result = $conn->query($query);
 <head>
   <meta charset="UTF-8">
   <title>Manage Quizzes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f4f6f9;
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: url('white.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      min-height: 100vh;
     }
 
     .content-wrapper {
       margin-left: 220px;
       padding: 2rem;
       transition: margin-left 0.3s ease;
+      
     }
 
     .sidebar.minimized + .content-wrapper {
@@ -36,17 +45,52 @@ $result = $conn->query($query);
 
     h2 {
       text-align: center;
-      color: #333;
+      color: orange; /* Apple orange color */
       margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 1rem;
+      border-radius: 12px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .add-btn, .back-btn {
+      background-color: orange; /* Apple orange color */
+      color: #000;
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-btn:hover {
+      background-color: #e69500; /* Darker orange for hover */
+    }
+
+    .back-btn {
+      background-color: #6c757d;
+      color: #fff;
+    }
+
+    .back-btn:hover {
+      background-color: #5a6268;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       border-radius: 12px;
       overflow: hidden;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
     th, td {
@@ -56,65 +100,47 @@ $result = $conn->query($query);
     }
 
     th {
-      background-color: #4e73df;
-      color: white;
+      background-color: orange; /* Apple orange color */
+      color: #000;
     }
 
     tr:hover {
-      background: #f0f4ff;
+      background-color: #fff3e0;
     }
 
     .actions a {
-      padding: 6px 10px;
+      padding: 6px 12px;
       margin-right: 6px;
       border-radius: 6px;
       text-decoration: none;
       font-size: 0.9rem;
+      font-weight: 600;
     }
 
     .edit {
       background-color: #1cc88a;
-      color: white;
+      color: #000;
     }
 
     .delete {
       background-color: #e74a3b;
-      color: white;
+      color: #fff;
     }
 
-    .add-btn {
-      display: inline-block;
-      background-color: #4e73df;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      text-decoration: none;
-    }
-
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .back-btn {
-      background-color: #6c757d;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
-    .back-btn:hover {
-      background-color: #5a6268;
-    }
-
-    /* Handle sidebar toggle layout shift */
     @media (max-width: 768px) {
       .content-wrapper {
         margin-left: 70px;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .add-btn, .back-btn {
+        width: 100%;
+        text-align: center;
       }
     }
   </style>
@@ -125,7 +151,7 @@ $result = $conn->query($query);
 
   <div class="content-wrapper">
     <h2>Manage Quizzes</h2>
-    
+
     <div class="top-bar">
       <a href="create.php" class="add-btn">+ Create New Quiz</a>
       <a href="../index.php" class="back-btn">← Go back to Dashboard</a>

@@ -1,5 +1,5 @@
 <div class="sidebar">
-  <div class="overlay"></div> <!-- Transparent layer behind content -->
+  <div class="overlay"></div> <!--Transparent layer behind content -->
 
   <!-- Sidebar Content -->
   <h2 class="logo">Quizzy</h2>
