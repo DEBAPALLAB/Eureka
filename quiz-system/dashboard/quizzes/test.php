@@ -63,57 +63,76 @@ $stored_answer = $_SESSION['answers'][$question['id']] ?? '';
   <title>Quiz</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f4f6f9;
-      padding: 40px;
-    }
-    .container {
-      background: white;
-      max-width: 700px;
-      margin: auto;
-      padding: 2rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    .container h1 {
-      color: #4e73df;
-      margin-bottom: 1rem;
-      font-size: 28px;
-    }
-    h3 {
-      color: #444;
-      margin-bottom: 1rem;
-    }
-    .option {
-      margin-bottom: 1rem;
-    }
-    .option input {
-      margin-right: 10px;
-    }
-    button {
-      background: #4e73df;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    button:hover {
-      background: #2e59d9;
-    }
-    a.back {
-      text-align: center;
-      display: block;
-      margin-top: 1rem;
-      text-decoration: none;
-      color: #555;
-    }
-    a.back:hover {
-      text-decoration: underline;
-    }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #121212;
+  padding: 40px;
+  color: #f5f5f5;
+  background: url('white.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.container {
+  background: #1e1e1e;
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.container h1 {
+  color: #4e73df; /* keep the blue */
+  margin-bottom: 1rem;
+  font-size: 28px;
+}
+
+h3 {
+  color: #ffa726; /* orange subheading */
+  margin-bottom: 1rem;
+}
+
+.option {
+  margin-bottom: 1rem;
+}
+
+.option input {
+  margin-right: 10px;
+}
+
+button {
+  background: #4e73df; /* keep the blue */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+button:hover {
+  background: #2e59d9;
+}
+
+a.back {
+  display: block; /* block-level for full width */
+  width: fit-content; /* only as wide as its content */
+  margin: 2rem auto 0 auto; /* top margin, auto left/right */
+  text-decoration: none;
+  color: #ffa726; /* orange link */
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+a.back:hover {
+  text-decoration: underline;
+  color: #ff9800;
+  
+}
+
   </style>
 </head>
 <body>

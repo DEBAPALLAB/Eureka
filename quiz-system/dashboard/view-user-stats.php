@@ -90,10 +90,16 @@ include("navbar.php");
     }
 
     .header-title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #000;
-    }
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin: 0 auto; /* Center horizontally */
+  margin-left: 400px;
+}
 
     .btn-back {
       background-color: orange;
@@ -115,6 +121,8 @@ include("navbar.php");
       border-radius: 16px;
       box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
       margin-bottom: 2rem;
+      text-align: left;
+      color: #fff;
     }
 
     .stats-flex {
@@ -135,6 +143,7 @@ include("navbar.php");
     h2 {
       margin-bottom: 1rem;
       color: #fff;
+      text-align: center;
     }
 
     p {
@@ -213,11 +222,28 @@ include("navbar.php");
 
   <div class="stats-flex">
     <div class="overview">
-      <h2>Average Stats</h2>
-      <p><strong>Correct:</strong> <?= $avg_correct ?></p>
-      <p><strong>Incorrect:</strong> <?= $avg_incorrect ?></p>
-      <p><strong>Unanswered:</strong> <?= $avg_unanswered ?></p>
-      <p><strong>Total Quizzes Attempted:</strong> <?= $total_attempts ?></p>
+     <h2>Average Stats</h2>
+<table class="stats-table">
+  <tbody>
+    <tr>
+      <td><strong>Correct:</strong></td>
+      <td><?= $avg_correct ?></td>
+    </tr>
+    <tr>
+      <td><strong>Incorrect:</strong></td>
+      <td><?= $avg_incorrect ?></td>
+    </tr>
+    <tr>
+      <td><strong>Unanswered:</strong></td>
+      <td><?= $avg_unanswered ?></td>
+    </tr>
+    <tr>
+      <td><strong>Total Quizzes Attempted:</strong></td>
+      <td><?= $total_attempts ?></td>
+    </tr>
+  </tbody>
+</table>
+
     </div>
     <div class="chart-container">
       <canvas id="chart"></canvas>
@@ -267,6 +293,7 @@ include("navbar.php");
     type: 'doughnut',
     data: {
       labels: ['Correct', 'Incorrect', 'Unanswered'],
+
       datasets: [{
         data: [<?= $avg_correct ?>, <?= $avg_incorrect ?>, <?= $avg_unanswered ?>],
         backgroundColor: ['#4CAF50', '#FF5722', '#FFC107']

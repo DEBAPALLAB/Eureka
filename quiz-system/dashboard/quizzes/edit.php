@@ -54,149 +54,183 @@ $questions = $qStmt->get_result();
   <title>Edit Quiz - <?= htmlspecialchars($quiz['title']) ?></title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Rubik', sans-serif;
-      background: #f9f9f9;
-      padding: 40px;
-      color: #333;
-    }
-    h2 {
-      margin-bottom: 1rem;
-      font-size: 2rem;
-    }
-    form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      max-width: 600px;
-      margin-bottom: 40px;
-    }
-    label {
-      display: block;
-      margin: 1rem 0 0.5rem;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .btn {
-      margin-top: 1rem;
-      background: #4caf50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background: #45a049;
-    }
-    .message {
-      background: #e0ffe0;
-      border: 1px solid #a0e0a0;
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      color: #2e7d32;
-    }
+body {
+  font-family: 'Rubik', sans-serif;
+  background: url('white.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  
+  color: #f5f5f5;
+}
 
-    .questions-section {
-      margin-top: 40px;
-    }
+h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #ffa500;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+}
 
-    .questions-section h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
+form {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  max-width: 600px;
+  margin-bottom: 40px;
 
-    .question-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
+  /* Ensure child elements respect the inner spacing */
+  box-sizing: border-box;
+}
 
-    .question-card {
-      background: #fff;
-      border: 2px solid #eee;
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 2px 2px 12px rgba(0,0,0,0.05);
-      position: relative;
-      transition: 0.2s ease;
-    }
+label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  color: #f0f0f0;
+  padding-left: 2px; /* slight padding for alignment consistency */
+}
 
-    .question-card:hover {
-      border-color: #4e73df;
-      transform: translateY(-2px);
-    }
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #2c2c2c;
+  color: #f5f5f5;
 
-    .question-text {
-      font-size: 1rem;
-      margin-bottom: 12px;
-    }
+  /* Add consistent internal spacing */
+  box-sizing: border-box;
+}
 
-    .question-actions {
-      display: flex;
-      justify-content: space-between;
-    }
 
-    .add-btn {
-      display: inline-block;
-      margin: 20px 0;
-      background: #1abc9c;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: background 0.3s ease;
-    }
+.btn {
+  margin-top: 1rem;
+  background: #ffa500;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-    .add-btn:hover {
-      background: #16a085;
-    }
+.btn:hover {
+  background: #e68a00;
+}
 
-    .question-actions a {
-      text-decoration: none;
-      font-size: 0.9rem;
-      background: #4e73df;
-      color: white;
-      padding: 6px 10px;
-      border-radius: 6px;
-    }
+.message {
+  background: #2e7d32;
+  border: 1px solid #66bb6a;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  color: #d4f8d4;
+}
 
-    .question-actions a.delete {
-      background: #e74c3c;
-    }
+.questions-section {
+  margin-top: 40px;
+}
 
-    .main-content {
-      margin-left: 220px;
-      transition: margin-left 0.3s ease;
-      padding: 40px;
-    }
+.questions-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ffa500;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+}
 
-    .sidebar.minimized ~ .main-content {
-      margin-left: 70px;
-    }
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
 
-    a.back {
-      display: inline-block;
-      margin-top: 1rem;
-      text-decoration: none;
-      color: #555;
-    }
+.question-card {
+  background: #1e1e1e;
+  border: 2px solid #333;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: 0.2s ease;
+}
 
-    a.back:hover {
-      text-decoration: underline;
-    }
+.question-card:hover {
+  border-color: #ff9800;
+  transform: translateY(-2px);
+}
 
-  </style>
+.question-text {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #f0f0f0;
+}
+
+.question-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-btn {
+  display: inline-block;
+  margin: 20px 0;
+  background: #ffa500;
+  color: black;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.add-btn:hover {
+  background: #e68a00;
+}
+
+.question-actions a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  background: #333;
+  color: #ffa500;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.question-actions a.delete {
+  background: #e74c3c;
+  color: white;
+}
+
+.main-content {
+  margin-left: 220px;
+  transition: margin-left 0.3s ease;
+  padding: 40px;
+}
+
+.sidebar.minimized ~ .main-content {
+  margin-left: 70px;
+}
+
+a.back {
+  display: in;
+  margin-top: 1rem;
+  text-decoration: none;
+  background: #2c2c2c;
+  color: #f5f5f5;
+  padding: 6px 10px;
+  border-radius: 6px;
+
+}
+
+a.back:hover {
+  text-decoration: underline;
+}
+</style>
 </head>
 <body>
 <?php include '../navbar.php'; ?>

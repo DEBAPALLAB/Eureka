@@ -116,60 +116,64 @@ if ($percentage >= 90) {
     <title>Quiz Result</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f5f7fa;
-            margin: 0;
-            padding: 40px;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #121212;
+    margin: 0;
+    padding: 40px;
+    color: #f5f5f5;
+    background: url('white.jpeg') no-repeat center center fixed;
+      background-size: cover;
+}
 
-        .result-container {
-            max-width: 600px;
-            margin: auto;
-            background: #ffffff;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+.result-container {
+    max-width: 600px;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
 
-        h1 {
-            color: #333;
-            margin-bottom: 1rem;
-        }
+h1 {
+    color: #ffa500;
+    margin-bottom: 1rem;
+}
 
-        .score-box {
-            background-color: <?= $color ?>;
-            color: white;
-            font-size: 2rem;
-            font-weight: 600;
-            padding: 1.5rem;
-            border-radius: 16px;
-            margin: 1.5rem 0;
-        }
+.score-box {
+    background-color: <?= $color ?>;
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin: 1.5rem 0;
+}
 
-        .stats {
-            margin: 1.2rem 0;
-            color: #555;
-            font-size: 1.1rem;
-        }
+.stats {
+    margin: 1.2rem 0;
+    color: #e0e0e0;
+    font-size: 1.1rem;
+}
 
-        .btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 12px 24px;
-            background: #4e73df;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: background 0.3s ease;
-        }
+.btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 12px 24px;
+    background: #ffa500;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
 
-        .btn:hover {
-            background: #3b5fc2;
-        }
+.btn:hover {
+    background: #ef6c00;
+}
+
     </style>
 </head>
 <body>

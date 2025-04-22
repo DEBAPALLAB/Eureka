@@ -40,25 +40,69 @@ while ($user = $users_result->fetch_assoc()) {
   <meta charset="UTF-8">
   <title>Admin - All User Statistics</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Poppins', sans-serif; background: #f5f7fa; }
-    .content-wrapper { margin-left: 220px; padding: 40px; }
-    h2 { margin-bottom: 1rem; }
-    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
-    th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-    th { background: #f0f2f7; }
-    tr:hover { background: #f9f9f9; }
-    .btn-view {
-      background: #4e73df;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .btn-view:hover {
-      background: #3b5fc2;
-    }
+ <style>
+  body {
+  font-family: 'Poppins', sans-serif;
+  
+  background: url('white.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  color: #f5f5f5;
+}
+
+.content-wrapper {
+  margin-left: 220px;
+  padding: 40px;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  color: #ffa500;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #333;
+  text-align: center;
+  color: #f0f0f0;
+
+}
+
+th {
+  background: #2c2c2c;
+  color: #ffa500;
+}
+
+tr:hover {
+  background: #2a2a2a;
+}
+
+.btn-view {
+  background: #ffa500;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.btn-view:hover {
+  background: #e68a00;
+}
+
 
     @media (max-width: 768px) {
       .content-wrapper {

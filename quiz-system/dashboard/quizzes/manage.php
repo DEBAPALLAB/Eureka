@@ -89,7 +89,7 @@ $result = $conn->query($query);
       border-collapse: collapse;
       border-radius: 12px;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(0, 0, 0, 0.75);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
@@ -97,6 +97,7 @@ $result = $conn->query($query);
       padding: 1rem;
       text-align: left;
       border-bottom: 1px solid #eee;
+      color: #f2f2f2;
     }
 
     th {
@@ -105,7 +106,7 @@ $result = $conn->query($query);
     }
 
     tr:hover {
-      background-color: #fff3e0;
+      background-color:rgb(191, 173, 144);
     }
 
     .actions a {
@@ -119,12 +120,12 @@ $result = $conn->query($query);
 
     .edit {
       background-color: #1cc88a;
-      color: #000;
+      color: #f2f2f2;
     }
 
     .delete {
       background-color: #e74a3b;
-      color: #fff;
+      color: #f2f2f2;
     }
 
     @media (max-width: 768px) {
