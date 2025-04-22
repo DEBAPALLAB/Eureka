@@ -6,6 +6,7 @@ if (($_SESSION['role']) !== 'user' && $_SESSION['role'] !== 'admin') {
     header("Location: ../views/login.html");
     exit;
 }
+$role = $_SESSION['role'];
 
 // Fetch average scores for each user
 $query = "

@@ -3,7 +3,7 @@ session_start();
 require_once '../config/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
-    header('Location: ../auth/login.html');
+    header('Location: ../views/login.html');
     exit;
 }
 
