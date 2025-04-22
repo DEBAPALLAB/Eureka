@@ -33,7 +33,7 @@ $avg_incorrect = $total_attempts > 0 ? round($total_incorrect / $total_attempts,
 $avg_unanswered = $total_attempts > 0 ? round($total_unanswered / $total_attempts, 2) : 0;
 
 // Fetch user's name from the database
-$user_name = 'User'; // Default fallback
+$user_name = 'User';
 
 $user_stmt = $conn->prepare("SELECT name FROM users WHERE id = ?");
 $user_stmt->bind_param("i", $user_id);
@@ -81,7 +81,7 @@ body {
   color: #ffa726;
   margin-left: 580px;
   margin-right: 400px;
-  margin-top: 30px; /* <-- This adds distance from top */
+  margin-top: 30px; 
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -234,7 +234,7 @@ tr:hover {
           <td><?= $row['unanswered'] ?></td>
           <td><?= round($row['score'], 2) ?>%</td>
           <td><?= date('d M Y, H:i', strtotime($row['attempted_at'])) ?></td>
-          <td><a class="btn-view" href="quizzes/result.php?quiz_id=<?= $row['quiz_id'] ?>">View Result</a></td>
+          <td><a class="btn-view" href="result.php?quiz_id=<?= $row['quiz_id'] ?>">View Result</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>
@@ -261,7 +261,7 @@ tr:hover {
   plugins: {
     legend: {
       position: 'bottom',
-      align: 'center', // centers the legend items
+      align: 'center', 
       labels: {
         boxWidth: 20,
         padding: 15,

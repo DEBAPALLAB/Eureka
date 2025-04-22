@@ -38,7 +38,6 @@
   z-index: 2;
 }
 
-/* Logo style */
 .sidebar .logo {
   color: orange;
   font-size: 2rem;
@@ -46,7 +45,6 @@
   margin-bottom: 2rem;
 }
 
-/* Button styles */
 .sidebar-btn {
   display: block;
   margin: 10px 0;
@@ -64,11 +62,10 @@
   background-color: #e69500;
 }
 
-/* Logout button at the bottom */
 .logout-btn {
   margin-top: auto;
   background-color: #e74c3c;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0; 
   color: white;
 }
 

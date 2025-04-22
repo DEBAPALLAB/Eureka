@@ -128,13 +128,13 @@ unset($_SESSION['join_error']);
     <p>This is your dashboard. Use the navigation or side panel to manage quizzes and take tests.</p>
 
     <?php if ($_SESSION['role'] === 'admin') : ?>
-      <a href="quizzes/create.php" class="btn-action">➕ Create New Quiz</a>
-      <a href="quizzes/ai-quiz.php" class="btn-action" style="background-color: #6f42c1;">🧠 Create New AI Quiz</a>
-      <a href="quizzes/manage.php" class="btn-action">🚩 Manage Your Quizzes</a>
+      <a href="create.php" class="btn-action">➕ Create New Quiz</a>
+      <a href="ai-quiz.php" class="btn-action" style="background-color: #6f42c1;">🧠 Create New AI Quiz</a>
+      <a href="manage.php" class="btn-action">🚩 Manage Your Quizzes</a>
     <?php endif; ?>
 
     <?php if ($_SESSION['role'] === 'user') : ?>
-      <form action="quizzes/join.php" method="POST" style="margin-top: 1rem;">
+      <form action="join.php" method="POST" style="margin-top: 1rem;">
         <input type="text" name="quiz_code" placeholder="Enter Quiz Code" required>
         <button type="submit" class="btn-action">➕ Join Quiz</button>
       </form>

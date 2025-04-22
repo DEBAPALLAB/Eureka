@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 include("navbar.php");
 
-// Fetch all users (non-admins)
+// Fetch all users
 $stmt = $conn->prepare("SELECT id, name FROM users WHERE role = 'user'");
 $stmt->execute();
 $users_result = $stmt->get_result();
@@ -120,7 +120,7 @@ tr:hover {
       <tr>
         <th>User ID</th>
         <th>Name</th>
-        <th>Total Attempts</th>
+        <th>Total Attempted Quizzes</th>
         <th>Average Score (%)</th>
         <th>Action</th>
       </tr>

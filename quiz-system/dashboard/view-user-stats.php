@@ -3,7 +3,7 @@ session_start();
 require_once '../config/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header('Location: ../auth/login.html');
+    header('Location: ../views/login.html');
     exit;
 }
 
@@ -78,7 +78,6 @@ include("navbar.php");
     .content-wrapper {
       margin-left: 220px;
       padding: 40px;
-      transition: margin-left 0.3s ease;
     }
 
     .header-bar {
@@ -90,16 +89,16 @@ include("navbar.php");
     }
 
     .header-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.75);
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  text-align: center;
-  margin: 0 auto; /* Center horizontally */
-  margin-left: 400px;
-}
+      font-size: 1.8rem;
+      font-weight: 600;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      text-align: center;
+      margin: 0 auto;
+      margin-left: 400px;
+      color: orange;
+    }
 
     .btn-back {
       background-color: orange;
@@ -108,47 +107,39 @@ include("navbar.php");
       text-decoration: none;
       border-radius: 8px;
       font-weight: 600;
-      transition: background 0.3s ease;
     }
 
     .btn-back:hover {
       background-color: #e69500;
     }
 
-    .overview, .table-wrapper, .chart-container {
+    .overview,
+    .table-wrapper {
       background: rgba(0, 0, 0, 0.85);
       padding: 1.5rem;
       border-radius: 16px;
       box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
       margin-bottom: 2rem;
-      text-align: left;
-      color: #fff;
+    }
+
+    .overview h2,
+    .table-wrapper h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
 
     .stats-flex {
       display: flex;
-      gap: 2rem;
-      align-items: stretch;
+      justify-content: space-around;
+      align-items: flex-start;
       flex-wrap: wrap;
-      max-width: 900px;
-      margin: 0 auto 2rem auto;
+      gap: 2rem;
     }
 
-    .stats-flex .overview,
-    .stats-flex .chart-container {
+    .stats-table-container,
+    .chart-container {
       flex: 1;
-      min-width: 250px;
-    }
-
-    h2 {
-      margin-bottom: 1rem;
-      color: #fff;
-      text-align: center;
-    }
-
-    p {
-      margin-bottom: 0.5rem;
-      color: #ddd;
+      min-width: 280px;
     }
 
     table {
@@ -165,12 +156,11 @@ include("navbar.php");
 
     th {
       background: rgba(255, 255, 255, 0.1);
-      color: #f2f2f2;
+      color : orange;
     }
 
     tr:hover {
       background: rgba(255, 255, 255, 0.08);
-      transition: background 0.3s ease;
     }
 
     .btn-view {
@@ -181,7 +171,6 @@ include("navbar.php");
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 600;
-      transition: background 0.3s ease;
     }
 
     .btn-view:hover {
@@ -200,6 +189,11 @@ include("navbar.php");
         gap: 1rem;
       }
 
+      .header-title {
+        margin-left: 0;
+        text-align: center;
+      }
+
       .btn-back {
         width: 100%;
         text-align: center;
@@ -207,7 +201,6 @@ include("navbar.php");
 
       .stats-flex {
         flex-direction: column;
-        margin-bottom: 1.5rem;
       }
     }
   </style>
@@ -220,67 +213,65 @@ include("navbar.php");
     <a class="btn-back" href="admin-stats.php">&larr; Back to User List</a>
   </div>
 
-  <div class="stats-flex">
-    <div class="overview">
-     <h2>Average Stats</h2>
-<table class="stats-table">
-  <tbody>
-    <tr>
-      <td><strong>Correct:</strong></td>
-      <td><?= $avg_correct ?></td>
-    </tr>
-    <tr>
-      <td><strong>Incorrect:</strong></td>
-      <td><?= $avg_incorrect ?></td>
-    </tr>
-    <tr>
-      <td><strong>Unanswered:</strong></td>
-      <td><?= $avg_unanswered ?></td>
-    </tr>
-    <tr>
-      <td><strong>Total Quizzes Attempted:</strong></td>
-      <td><?= $total_attempts ?></td>
-    </tr>
-  </tbody>
-</table>
+  <div class="overview">
+    <h2>Average Stats</h2>
+    <div class="stats-flex">
+      <div class="stats-table-container">
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Stat</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Correct:</strong></td><td><?= $avg_correct ?></td></tr>
+            <tr><td><strong>Incorrect:</strong></td><td><?= $avg_incorrect ?></td></tr>
+            <tr><td><strong>Unanswered:</strong></td><td><?= $avg_unanswered ?></td></tr>
+            <tr><td><strong>Total Quizzes Attempted:</strong></td><td><?= $total_attempts ?></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chart-container" style="flex: 1; display: flex; justify-content: center; align-items: center;">
+      <div style="width: 100%; max-width: 300px;">
+        <canvas id="chart"></canvas>
+      </div>
 
     </div>
-    <div class="chart-container">
-      <canvas id="chart"></canvas>
     </div>
   </div>
 
   <div class="table-wrapper">
     <h2>Attempted Quizzes</h2>
     <?php if ($total_attempts > 0): ?>
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Quiz Title</th>
-          <th>Correct</th>
-          <th>Incorrect</th>
-          <th>Unanswered</th>
-          <th>Score (%)</th>
-          <th>Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Quiz Title</th>
+            <th>Correct</th>
+            <th>Incorrect</th>
+            <th>Unanswered</th>
+            <th>Score (%)</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
         <?php foreach ($results as $i => $row): ?>
-        <tr>
-          <td><?= $i + 1 ?></td>
-          <td><?= htmlspecialchars($row['title']) ?></td>
-          <td><?= $row['correct'] ?></td>
-          <td><?= $row['incorrect'] ?></td>
-          <td><?= $row['unanswered'] ?></td>
-          <td><?= round($row['score'], 2) ?>%</td>
-          <td><?= date('d M Y, H:i', strtotime($row['attempted_at'])) ?></td>
-          <td><a class="btn-view" href="quizzes/result.php?quiz_id=<?= $row['quiz_id'] ?>&user_id=<?= $view_user_id ?>">View Result</a></td>
-        </tr>
+          <tr>
+            <td><?= $i + 1 ?></td>
+            <td><?= htmlspecialchars($row['title']) ?></td>
+            <td><?= $row['correct'] ?></td>
+            <td><?= $row['incorrect'] ?></td>
+            <td><?= $row['unanswered'] ?></td>
+            <td><?= round($row['score'], 2) ?>%</td>
+            <td><?= date('d M Y, H:i', strtotime($row['attempted_at'])) ?></td>
+            <td><a class="btn-view" href="result.php?quiz_id=<?= $row['quiz_id'] ?>&user_id=<?= $view_user_id ?>">View Result</a></td>
+          </tr>
         <?php endforeach; ?>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
     <?php else: ?>
       <p>This user hasn't attempted any quizzes yet.</p>
     <?php endif; ?>
@@ -293,13 +284,19 @@ include("navbar.php");
     type: 'doughnut',
     data: {
       labels: ['Correct', 'Incorrect', 'Unanswered'],
-
       datasets: [{
         data: [<?= $avg_correct ?>, <?= $avg_incorrect ?>, <?= $avg_unanswered ?>],
         backgroundColor: ['#4CAF50', '#FF5722', '#FFC107']
       }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
   });
 </script>
 </body>

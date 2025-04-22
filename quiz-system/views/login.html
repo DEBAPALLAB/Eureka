@@ -221,14 +221,14 @@
     }
 
     function delayedSubmit(event) {
-      event.preventDefault(); // stop immediate submission
+      event.preventDefault(); 
       document.getElementById("login-form").classList.add("hidden");
       document.getElementById("loading").style.display = "block";
 
       // Submit the form after a short delay
       setTimeout(() => {
         event.target.submit();
-      }, 600); // 600ms delay so you can actually see the loader
+      }, 600);
       return false;
     }
   </script>

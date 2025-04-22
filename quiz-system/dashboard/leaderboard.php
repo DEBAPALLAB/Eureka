@@ -110,9 +110,9 @@ while ($row = $result->fetch_assoc()) {
           <tr>
             <td>
               <?php
-                if ($index === 0) echo '<span class="medal gold">🥇</span>'; // Gold Medal
-                elseif ($index === 1) echo '<span class="medal silver">🥈</span>'; // Silver Medal
-                elseif ($index === 2) echo '<span class="medal bronze">🥉</span>'; // Bronze Medal
+                if ($index === 0) echo '<span class="medal gold">🥇</span>'; 
+                elseif ($index === 1) echo '<span class="medal silver">🥈</span>'; 
+                elseif ($index === 2) echo '<span class="medal bronze">🥉</span>';
                 else echo $index + 1;
               ?>
             </td>
